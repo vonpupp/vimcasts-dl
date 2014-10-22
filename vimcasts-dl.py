@@ -2,12 +2,24 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import os
+import errno
 import json
 import urllib2
 import subprocess
 
 JSON_URL = 'http://media.vimcasts.org/videos/index.json'
 config = {}
+
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:  # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
 
 
 def load_json(filename=None):
@@ -67,4 +79,5 @@ def run():
         print('Canceled by user')
 
 if __name__ == "__main__":
+    mkdir_p('videos')
     run()
